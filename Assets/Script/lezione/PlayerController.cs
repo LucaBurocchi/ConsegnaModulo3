@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, 10, groundMask)) ;
         {
-            Debug.Log("Colpito");
+            
         }
     }
 
