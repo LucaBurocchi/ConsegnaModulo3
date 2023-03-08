@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scatola : MonoBehaviour
+public class Box : MonoBehaviour
 {
 
     [SerializeField] private Rigidbody2D rb;

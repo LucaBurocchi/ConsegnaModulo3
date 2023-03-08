@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: eefc3da33ae0e5a4c80e0c5981c4bc50
+guid: 5c4a7b979e9f90e49901e460de8a2e5e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - button: {instanceID: 0}
-  - wallToDestroy: {instanceID: 0}
-  - wallToCreate: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
