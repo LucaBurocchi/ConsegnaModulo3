@@ -9,6 +9,8 @@ TagManager:
   - Button
   - Box
   - Collectibles
+  - Pedana
+  - Platform
   layers:
   - Default
   - TransparentFX

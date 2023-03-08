@@ -16,7 +16,7 @@ public class Medaglia : MonoBehaviour
 
             if (numMedaglieRaccolte == 3) // Se il player ha raccolto tutte le medaglie
             {
-                SceneManager.LoadScene("fine livello"); // Cambia scena
+                SceneManager.LoadScene("FineLivello"); // Cambia scena
             }
         }
     }
