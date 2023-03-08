@@ -4,66 +4,69 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //movimento base
-    private float horizontal;
-    private float speed = 8f;
-    private float jumpingPower = 16f;
-    private bool isFacingRight = true;
+    // Movimento di base
+    private float horizontal; // Input orizzontale del giocatore
+    private float speed = 8f; // Velocità di movimento del personaggio
+    private float jumpingPower = 16f; // Forza del salto del personaggio
+    private bool isFacingRight = true; // Indica se il personaggio sta guardando verso destra
 
-    //dash
-    private bool canDash = true;
-    private bool isDashing;
-    private float dashingPower = 24f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
+    // Dash
+    private bool canDash = true; // Indica se il personaggio può effettuare un dash
+    private bool isDashing; // Indica se il personaggio sta effettuando un dash
+    private float dashingPower = 24f; // Forza del dash
+    private float dashingTime = 0.2f; // Durata del dash
+    private float dashingCooldown = 1f; // Tempo di cooldown del dash
 
-    //doppio salto
-    private bool doubleJump;
+    // Doppio salto
+    private bool doubleJump; // Indica se il personaggio può effettuare un doppio salto
 
-    public Rigidbody2D rb;
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public TrailRenderer tr;
+    // Componenti del personaggio
+    public Rigidbody2D rb; // Rigidbody2D del personaggio
+    public Transform groundCheck; // Posizione da cui controllare se il personaggio è a terra
+    public LayerMask groundLayer; // Livello del terreno su cui il personaggio può camminare
+    public TrailRenderer tr; // Effetto del trail del dash
 
     private void Update()
     {
         if (isDashing)
         {
-            return;
+            return; // Se il personaggio sta effettuando un dash, esce dall'Update
         }
 
-        // movimento orizzontale, "getaxisraw per bloccarlo subito" "getaxis slitta"
-        horizontal = Input.GetAxis("Horizontal");
+        // Movimento orizzontale
+        horizontal = Input.GetAxis("Horizontal"); // Prende l'input orizzontale del giocatore
 
-        // salto
-        if (IsGrounded() && !Input.GetButton("Jump"))
+        // Salto
+        if (IsGrounded() && !Input.GetButton("Jump")) // Controlla se il personaggio è a terra e il tasto di salto non è premuto
         {
-            doubleJump = false;
+            doubleJump = false; // Resetta la possibilità di effettuare un doppio salto
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump")) // Controlla se il tasto di salto è stato premuto
         {
-            if (IsGrounded() || doubleJump)
+            if (IsGrounded() || doubleJump) // Controlla se il personaggio è a terra o può effettuare un doppio salto
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                rb.velocity = new Vector2(rb.velocity.x, jumpingPower); // Applica una forza di salto al personaggio
 
-                doubleJump = !doubleJump;
+                doubleJump = !doubleJump; // Imposta la possibilità di effettuare un doppio salto in base allo stato precedente
             }
         }
 
-            if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f) // Controlla se il tasto di salto è stato rilasciato e il personaggio sta ancora salendo
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f); // Riduce la velocità verticale del personaggio
         }
 
-        // dash
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        // Dash
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) // Controlla se il tasto di dash è stato premuto e il personaggio può effettuare un dash
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Dash()); // Avvia la coroutine per il dash
         }
 
-        Flip();
+        Flip(); // Gira il personaggio se necessario
     }
+
+
 
     private void FixedUpdate()
     {
@@ -72,16 +75,19 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // Imposta la velocità dell'oggetto in base all'input orizzontale e alla velocità massima.
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
     private bool IsGrounded()
     {
+        // Restituisce true se l'oggetto è a contatto con il terreno, altrimenti false.
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
     private void Flip()
     {
+        // Inverte la scala dell'oggetto (ovvero lo gira) se l'oggetto sta guardando a destra ma l'input orizzontale è negativo (ovvero va a sinistra), o se l'oggetto sta guardando a sinistra ma l'input orizzontale è positivo (ovvero va a destra).
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
             Vector3 localScale = transform.localScale;
@@ -93,17 +99,28 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        // Imposta la capacità di dash dell'oggetto a false (ovvero non può dashare).
         canDash = false;
+        // Imposta la variabile isDashing a true.
         isDashing = true;
+        // Salva il valore della gravità originale dell'oggetto e la imposta a 0.
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
+        // Imposta la velocità dell'oggetto in modo che dashi nella direzione in cui sta guardando, con una forza dashingPower.
         rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        // Attiva gli effetti speciali per il dash.
         tr.emitting = true;
+        // Aspetta per un certo periodo di tempo (dashingTime).
         yield return new WaitForSeconds(dashingTime);
+        // Disattiva gli effetti speciali per il dash.
         tr.emitting = false;
+        // Ripristina il valore originale della gravità dell'oggetto.
         rb.gravityScale = originalGravity;
+        // Imposta la variabile isDashing a false.
         isDashing = false;
+        // Aspetta per un certo periodo di tempo (dashingCooldown).
         yield return new WaitForSeconds(dashingCooldown);
+        // Imposta la capacità di dash dell'oggetto a true (ovvero può dashare di nuovo).
         canDash = true;
     }
 }
