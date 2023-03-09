@@ -58,6 +58,12 @@ public class MovingPlatform : MonoBehaviour
 
                 isMoving = true;
             }
+            else
+            {
+                Debug.Log("Stop");
+
+                isMoving = false;
+            }
         }
     }
 
@@ -70,7 +76,7 @@ public class MovingPlatform : MonoBehaviour
             Debug.Log("Player uscito dalla zona di attivazione della piattaforma");
 
             // Se il player e la box non sono più sopra la pedana, la piattaforma si ferma
-            if (!box.activeSelf && !player.activeSelf)
+            if (!box.activeSelf || !player.activeSelf)
             {
                 Debug.Log("La piattaforma si ferma");
 
