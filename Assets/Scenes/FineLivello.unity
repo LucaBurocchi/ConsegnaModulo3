@@ -681,7 +681,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3637869989231507351, guid: 6108f955aabcc4b4ab76f20e51a261df, type: 3}
       propertyPath: m_text
-      value: RESTART
+      value: MAIN MENU
       objectReference: {fileID: 0}
     - target: {fileID: 3637869989814667272, guid: 6108f955aabcc4b4ab76f20e51a261df, type: 3}
       propertyPath: m_Pivot.x
@@ -789,7 +789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3637869989814667279, guid: 6108f955aabcc4b4ab76f20e51a261df, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
+      value: GoToMainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 3637869989814667279, guid: 6108f955aabcc4b4ab76f20e51a261df, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

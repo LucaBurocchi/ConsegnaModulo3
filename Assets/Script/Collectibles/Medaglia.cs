@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Medaglia : MonoBehaviour
 {
-    private static int numMedaglieRaccolte = 0; // Numero di medaglie raccolte
+    public static int numMedaglieRaccolte = 0; // Numero di medaglie raccolte
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,4 +21,3 @@ public class Medaglia : MonoBehaviour
         }
     }
 }
-
